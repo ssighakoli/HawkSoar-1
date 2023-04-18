@@ -1,0 +1,68 @@
+{% extends 'home.html' %}
+
+{% block navbar %}
+  {% include 'navbars/student_nav_bar.html' %}
+{% endblock %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Event Name</th>
+      <th>Event Date</th>
+      <th>Sign Up</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+      <tr>
+        <td>{{ event.event_name }}</td>
+        <td>{{ event.event_date }}</td>
+        <td>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="event_pk" value="{{ event.pk }}">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}   
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Student Form</title>
+</head>
+<body>
+  {% block events %}
+    <form method="POST">
+        {% csrf_token %} -->
+        <!-- <label for="event">Select an event:</label>
+        <select name="event">
+          {% for event in events %}
+            <option value="{{ event.pk }}">{{ event.event_name }} - {{event.event_date}}</option>
+          {% endfor %}
+        </select><br> -->
+        <!-- <div class="form-group">
+          <label for="event">Select an event:</label>
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Select Event
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {% for event in events %}
+                      <a class="dropdown-item" href="#" value="{{ event.pk }}">{{ event.event_name }} - {{event.event_date}}</a>
+                  {% endfor %}
+              </div>
+          </div>
+        </div>
+      <input type="submit" class="btn btn-primary" value="Sign Up">
+        <input type="submit" value="Sign Up">
+      </form> -->
+  <!-- {% endblock %}   
+</body> -->
+</html>

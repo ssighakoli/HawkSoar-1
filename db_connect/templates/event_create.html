@@ -1,0 +1,25 @@
+{% extends 'home.html' %}
+
+{% block navbar %}
+  {% include 'navbars/tutor_nav_bar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<h1>Create Event</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Event</button>
+</form>
+{% endblock %}
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Create Event</title>
+</head>
+<body>
+
+</body>
+</html> -->

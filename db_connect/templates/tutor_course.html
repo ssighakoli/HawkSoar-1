@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Courses</title>
+    <!-- Include Bootstrap CSS and JavaScript files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Select The Course(s) You Tutor</h1>
+            </div>
+            {% csrf_token %}
+            <form method="get">
+                {{ myFilter.form }}
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Course ID</th>
+                                    <th>Course Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in courses %}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" id="course{{ forloop.counter }}" name="courses[]" value="{{ course.Course_id }}-{{ course.Course_Name }}">
+                                    </td>
+                                    <td>{{ course.Course_id }}</td>
+                                    <td>{{ course.Course_Name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Select Courses</title>
+</head>
+<body>
+    <h1>Select The Course(s) You Tutor</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="course_list">Select Courses</label>
+        {{ myFilter.form }}
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Select Courses</title>
+</head>
+<body>
+    <h1>Select The Course(s) You Tutor</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="course_list">Select Courses</label>
+        <select id="course_list" name="course_id_name[]" multiple>
+            {% for course in courses %}
+            <option value="{{ course.Course_id }}-{{ course.Course_Name }}">{{ course.Course_id }} - {{ course.Course_Name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> -->

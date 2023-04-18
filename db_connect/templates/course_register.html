@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Courses Form</title>
+</head>
+<body>
+    <h1>Courses Form</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="non-editable-input">CWID:</label>
+        <input type="text" id="non-editable-input" value="{{ A_number }}" readonly><br>
+        {{ formset.management_form }}
+        {% for form in formset %}
+            {{ form.as_p }}
+            <br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

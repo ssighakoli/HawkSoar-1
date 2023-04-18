@@ -1,0 +1,17 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'meeting_scheduler' user.id %}">Meeting Scheduler</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'collaboration_portal' user.id %}">Collaboration Portal</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'create_event' user.id %}">Create Event</a>
+    </li>
+{% endblock %}

@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">HawkSoar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'student' user.id %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'my_assignments' user.id %}">My Assignments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'my_schedule' user.id %}">My Schedule</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'performance_report' user.id %}">View Performance Report</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'collaboration_portal' user.id %}">Collaboration Portal</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'event_signup' user.id %}">Upcoming Events</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_view' %}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
