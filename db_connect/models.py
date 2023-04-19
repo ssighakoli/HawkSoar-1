@@ -127,3 +127,17 @@ class Group(models.Model):
     A_number = models.ForeignKey(Student,on_delete = models.CASCADE)
     CID = models.CharField(max_length=10)
     GName = models.CharField(max_length=10)
+
+class MentorMeeting(models.Model):
+    Mid = models.ForeignKey(Mentor, on_delete = models.CASCADE)
+    A_number = models.ForeignKey(Student, on_delete = models.CASCADE)
+    mName = models.CharField(max_length=25)
+    mDate = models.DateTimeField(null=True)
+
+class MenteeMessage(models.Model):
+    A_number = models.ForeignKey(Mentees, on_delete=models.CASCADE)
+    Mid = models.ForeignKey(Mentees, on_delete=models.CASCADE, related_name='Mentor_ID')
+    Message = models.TextField(null=False, max_length=1000)
+    M_Date = models.DateField(auto_now_add=True)
+
+

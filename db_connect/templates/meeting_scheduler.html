@@ -1,0 +1,49 @@
+{% extends 'home.html' %}
+
+{% block navbar %}
+    {% include 'navbars/mentor_nav_bar.html' %}
+{% endblock %}
+
+{% block content %}
+<h1>Meeting Scheduler</h1>
+
+    <div class="card-body">
+        <div class="form-group">
+            <form method="get">
+                {% csrf_token %}
+                <label for="student-filter"><b>Search For Student:</b></label>
+                {{ myFilter.form }}
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+<form method="post">
+    {% csrf_token %}
+    <div class="col-sm-2">
+        <div class="form-group">
+            <label for="selected-student">Select Student:</label>
+            <select name="selected-student" class="form-control">
+                {% for student in students %}
+                    <option value="{{ student.id }}">{{ student.Student_Name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="meeting-name">Meeting Name:</label>
+            <input type="text" name="meeting-name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="meeting-date">Meeting Date:</label>
+            <input type="date" name="meeting-date" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="meeting-time">Meeting Time:</label>
+            <input type="time" name="meeting-time" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Schedule Meeting</button>
+    </div>
+
+    
+
+</form>
+{% endblock %}

@@ -9,3 +9,10 @@ class CourseFilter(django_filters.FilterSet):
         model = Course_Registered
         fields = '__all__'
         exclude = ['A_number', 'Course_Name']
+
+class StudentFilter(django_filters.FilterSet):
+    Student_Name = CharFilter(field_name='Student_Name', lookup_expr='icontains')
+    class Meta:
+        model = Student
+        fields = '__all__'
+        exclude = ['user', 'A_number']

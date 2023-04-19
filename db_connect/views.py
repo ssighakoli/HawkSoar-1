@@ -5,7 +5,8 @@ from db_connect.forms import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from db_connect.filters import CourseFilter
+from db_connect.filters import *
+import datetime
 
 #HELPER FUNCTIONS
 def get_user(user):
@@ -80,11 +81,11 @@ def role_manager(request):
     user_role = request.user.user_type
     user = get_user(request.user)
     if user_role == 'student':
-        return redirect('student', user_id=request.user.id)
+        return redirect('student', user_id=user.id)
     elif user_role == 'tutor':
-        return redirect('tutor', user_id=request.user.id)
+        return redirect('tutor', user_id=user.id)
     elif user_role == 'mentor':
-        return redirect('mentor', user_id=request.user.id)
+        return redirect('mentor', user_id=user.id)
     else:
         return HttpResponseBadRequest("Invalid user type")
 #END
@@ -98,25 +99,30 @@ def student(request, user_id):
 
 @login_required
 def tutor(request, user_id):
-    user = get_user(request.user)
-    #print(user.Tid)
-    # students = Student.objects.all()
     cids = []
-    for object in TutorsCourse.objects.filter(Tid=user.id):
+    for object in TutorsCourse.objects.filter(Tid=user_id):
         cids.append(object.course_id)
-    print(cids)
     students = []
     for cid in cids:
         course = Course_Registered.objects.get(Course_id=cid)
         if course.Course_id == cid:
             students.append([course.A_number.Student_Name, course.A_number.A_number, course.Course_Name])  
-    print(students)
-    return render(request, 'tutor_home.html', {'user': user, 'students': students})
+    return render(request, 'tutor_home.html', {'user_id': user_id, 'students': students})
 
 @login_required
 def mentor(request, user_id):
     user = get_user(request.user)
-    return render(request, 'mentor_home.html', {'user': user})
+    meeting_objects = MentorMeeting.objects.filter(Mid=user_id)
+    meetings = []
+
+    for meeting in meeting_objects:
+        student_name = meeting.A_number.Student_Name
+        date = meeting.mDate.date()
+        time = meeting.mDate.time()
+        dt = str(date) + ' ' + str(time)
+        meetings.append([meeting.mName, dt, student_name])
+    print(meetings)
+    return render(request, 'mentor_home.html', {'user_id': user_id, 'meetings':meetings})
 #END
 
 
@@ -124,7 +130,7 @@ def mentor(request, user_id):
 #VIEWS FOR ANY USER TO USE (excepts students can't use event_create)
 #####################################
 @login_required
-def event_create(request):
+def event_create(request, user_id):
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
@@ -135,7 +141,7 @@ def event_create(request):
                 return redirect('mentor')
     else:
         form = EventForm()
-    return render(request, 'event_create.html', {'form': form})
+    return render(request, 'event_create.html', {'user_id':user_id, 'form': form})
 
 @login_required
 def collaboration_portal(request):
@@ -215,6 +221,12 @@ def tutor_course(request, Tid):
 
 @login_required
 def assign_group(request):
+    #use django filter to let user filter students by course 
+    #User can select a course they tutor from a dropdown list 
+    #Once selected, use filter to get students in that course
+    #Let user select students to assign to a group
+    #Fill out fields GID, Group Name, CID, A_number
+    #Have to create n instances for n students for the Group model
     pass
 @login_required
 def assignment_manager(request, user_id):
@@ -230,27 +242,25 @@ def submit_feedback(request):
 #MENTOR VIEWS
 @login_required
 def meeting_scheduler(request, user_id):
-    pass
+    if request.method == 'POST':
+        mentor = Mentor.objects.get(id=user_id)
+        mName = request.POST.get('meeting-name')
+        student_id = request.POST.get('selected-student')
+        student = Student.objects.get(id=student_id)
+        _date = request.POST.get('meeting-date')
+        _time = request.POST.get('meeting-time')
+        date = datetime.datetime.strptime(_date, '%Y-%m-%d').date()
+        time = datetime.datetime.strptime(_time, '%H:%M').time()
+        dt = datetime.datetime.combine(date, time)
+        mentor_meeting = MentorMeeting.objects.create(Mid=mentor, A_number=student, mName=mName, mDate=dt)
+        mentor_meeting.save()
+        return redirect('mentor', user_id)
+    else:
+        students = Student.objects.all()
+        myFilter = StudentFilter(request.GET, queryset=students)
+        students = myFilter.qs
+        context = { 'students':students, 'myFilter':myFilter, 'user_id':user_id }
+        return render(request, 'meeting_scheduler.html', context)
 #MENTOR VIEWS (END)
-
-
-
-
-
-
-# def user_registation(request):
-#     if request.method == 'POST':
-#         form = User_register_Form(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('login_view')
-#     else:
-#         form = User_register_Form()
-#     return render(request, 'user_registration.html', {'form': form})
-
-
-# Create your views here.
-# def index(request):
-#     return HttpResponse("Welcome to HawkSoar Application")
 
 

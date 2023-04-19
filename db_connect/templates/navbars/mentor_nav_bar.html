@@ -6,16 +6,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'tutor' user_id %}">Home</a>
+            <a class="nav-link" href="{% url 'mentor' user_id %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'tutor_course' user_id %}">Tutor New Course</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'assignment_manager' user_id %}">Assignment Manager</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'performance_manager' user_id %}">Manage Performance Reports</a>
+            <a class="nav-link" href="{% url 'meeting_scheduler' user_id %}">Meeting Scheduler</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'collaboration_portal' user_id %}">Collaboration Portal</a>
