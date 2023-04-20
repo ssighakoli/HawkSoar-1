@@ -129,6 +129,11 @@ def mentor(request, user_id):
 #####################################
 #VIEWS FOR ANY USER TO USE (excepts students can't use event_create)
 #####################################
+def room(request, room_name):
+    return render(request, 'chatroom.html', {
+        'room_name': room_name
+    })
+
 @login_required
 def event_create(request, user_id):
     if request.method == 'POST':

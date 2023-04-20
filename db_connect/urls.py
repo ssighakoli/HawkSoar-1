@@ -9,6 +9,7 @@ urlpatterns = [
     path('events/create/<int:user_id>', views.event_create, name='event_create'),
     path('collaboration_portal/<int:user_id>', views.collaboration_portal, name='collaboration_portal'),
     path('logout/', views.logout_view, name='logout_view'),
+    path('<str:room_name>/', views.room, name='room'),
 
     #STUDENT PATHS
     path('student/<int:user_id>', views.student, name='student'),
